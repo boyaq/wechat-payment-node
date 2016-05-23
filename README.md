@@ -1,4 +1,4 @@
-# WeChat Payment  (Node.js)    
+# Weixin Payment  (Node.js)    
 微信支付 API for Node.js
 
 
@@ -8,7 +8,7 @@
 配置，初始化
 
 ```javascript
-var wxPayment = require('wechat-payment');
+var wxPayment = require('wx-payment');
 wxPayment.init({
 	appid: 'xxxxxxxx',
 	mch_id: '1234567890',
@@ -26,7 +26,7 @@ wxPayment.createUnifiedOrder({
 	out_trade_no: '20140703'+Math.random().toString().substr(2, 10),
 	total_fee: 1,
 	spbill_create_ip: '192.168.2.210',
-	notify_url: 'http://wxpay_notify_url',
+	notify_url: 'http://wxpayment_notify_url',
 	trade_type: 'JSAPI',
 	product_id: '1234567890'
 }, function(err, result){
@@ -40,7 +40,7 @@ wxPayment.createUnifiedOrder({
 
 ```javascript
 // 支付结果异步通知
-router.use('/wxpay/notify', wxPayment.wechatCallback(function(msg, req, res, next){
+router.use('/wxpayment/notify', wxPayment.wxCallback(function(msg, req, res, next){
 	// 处理商户业务逻辑
 
     // res.success() 向微信返回处理成功信息，res.fail()返回失败信息。

@@ -1,4 +1,4 @@
-var wxPayment = require('../lib/wechat-payment');
+var wxPayment = require('../lib/wx-payment');
 var expect = require('chai').expect;
 
 describe('Wechat payment 测试', function() {
