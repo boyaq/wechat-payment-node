@@ -1,7 +1,7 @@
 {
-  "name": "wechat-payment",
-  "version": "1.0.0",
-  "description": "Payment API of Wechat",
+  "name": "wx-payment",
+  "version": "1.0.1",
+  "description": "Payment API of Weixin (WeChat)",
   "main": "index.js",
   "scripts": {
     "watch": "mocha --watch tests/",
@@ -16,7 +16,7 @@
   "keywords": [
     "wechat",
     "weixin",
-    "pay",
+    "payment",
     "微信支付"
   ],
   "author": "Rongfeng Lai",
@@ -25,5 +25,10 @@
     "chai": "^3.5.0",
     "mocha": "^2.4.5",
     "mochawesome": "^1.3.4"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rolai/wechat-payment"
+  },
+  "homepage": "https://github.com/rolai/wechat-payment"
 }
