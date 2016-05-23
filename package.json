@@ -1,0 +1,29 @@
+{
+  "name": "wechat-payment",
+  "version": "1.0.0",
+  "description": "Payment API of Wechat",
+  "main": "index.js",
+  "scripts": {
+    "watch": "mocha --watch tests/",
+    "test": "mocha --reporter spec --timeout 2000 --recursive tests/",
+    "test-cov": "istanbul cover ./node_modules/mocha/bin/_mocha -- -t 2000 --recursive  -R spec tests/",
+    "test-html": "mocha --reporter mochawesome tests/"
+  },
+  "dependencies": {
+    "request": "^2.54.0",
+    "xml2js": "^0.4.6"
+  },
+  "keywords": [
+    "wechat",
+    "weixin",
+    "pay",
+    "微信支付"
+  ],
+  "author": "Rongfeng Lai",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.4.5",
+    "mochawesome": "^1.3.4"
+  }
+}
