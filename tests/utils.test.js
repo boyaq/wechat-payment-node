@@ -16,7 +16,7 @@ describe('utils：工具方法测试', function() {
 
     describe('utils.createNonceStr', function() {
         it('createNonceStr successed', function() {
-            expect(utils.createNonceStr().length).to.be.equal(15);
+            expect(utils.createNonceStr(24).length).to.be.equal(24);
         });
     });
 });

@@ -1,5 +1,6 @@
 var wxPayment = require('../lib/wx-payment');
 var expect = require('chai').expect;
+var fs = require('fs');
 
 describe('Wechat payment 测试', function() {
 
@@ -7,7 +8,7 @@ describe('Wechat payment 测试', function() {
         var options = {
             //appid: 'xxxxxxxx',
         	mch_id: '1234567890',
-        	partner_key: 'xxxxxxxxxxxxxxxxx', //微信商户平台API密钥
+        	apiKey: 'xxxxxxxxxxxxxxxxx', //微信商户平台API密钥
         	//pfx: fs.readFileSync('./apiclient_cert.p12'), //微信商户平台证书 (optional，部分API需要使用)
         }
 
@@ -18,6 +19,8 @@ describe('Wechat payment 测试', function() {
         it('should be ok', function() {
             options['appid'] = 'xxxxxxxx';
             expect(wxPayment.init(options)).to.be.empty;
+            console.log(wxPayment.options);
+            expect(wxPayment.options).to.not.be.empty;
         });
     });
 
@@ -26,8 +29,8 @@ describe('Wechat payment 测试', function() {
         var options = {
             appid: 'xxxxxxxx',
         	mch_id: '1234567890',
-        	partner_key: 'xxxxxxxxxxxxxxxxx', //微信商户平台API密钥
-        	//pfx: fs.readFileSync('./apiclient_cert.p12'), //微信商户平台证书 (optional，部分API需要使用)
+        	apiKey: 'xxxxxxxxxxxxxxxxx', //微信商户平台API密钥
+        	//pfx: fs.readFileSync('./cert/apiclient_cert.p12'), //微信商户平台证书 (optional，部分API需要使用)
         }
         wxPayment.init(options);
 
@@ -39,9 +42,11 @@ describe('Wechat payment 测试', function() {
             	spbill_create_ip: '192.168.2.210',
             	notify_url: 'http://wxpay_notify_url',
             	trade_type: 'JSAPI',
-            	product_id: '1234567890'
+            	product_id: '1234567890',
+                openid: 'xxxxxxxxxxxxxxxxx'
             }, function(err, result){
-            	console.log(result);
+                // please set the true appid, mch_id, apiKey and openid, then
+                // expect(result.return_code).to.be.equal('SUCCESS');
                 expect(result.return_code).to.be.equal('FAIL');
             });
         });

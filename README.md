@@ -12,7 +12,7 @@ var wxPayment = require('wx-payment');
 wxPayment.init({
 	appid: 'xxxxxxxx',
 	mch_id: '1234567890',
-	partner_key: 'xxxxxxxxxxxxxxxxx', //微信商户平台API密钥
+	apiKey: 'xxxxxxxxxxxxxxxxx', //微信商户平台API密钥
 	pfx: fs.readFileSync('./apiclient_cert.p12'), //微信商户平台证书 (optional，部分API需要使用)
 });
 ```
@@ -28,7 +28,8 @@ wxPayment.createUnifiedOrder({
 	spbill_create_ip: '192.168.2.210',
 	notify_url: 'http://wxpayment_notify_url',
 	trade_type: 'JSAPI',
-	product_id: '1234567890'
+	product_id: '1234567890',
+    openid: 'xxxxxxxx'
 }, function(err, result){
 	console.log(result);
 });
