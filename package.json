@@ -1,6 +1,6 @@
 {
   "name": "wx-payment",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "Payment API of Weixin (WeChat)",
   "main": "index.js",
   "scripts": {
