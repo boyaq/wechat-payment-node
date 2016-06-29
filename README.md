@@ -1,6 +1,16 @@
 # Weixin Payment  (Node.js)    
 微信支付 API for Node.js
 
+使用之前一定要读懂微信支付的文档, 传送门：[微信支付](https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=1_1), [企业付款 (转账、提现)](https://pay.weixin.qq.com/wiki/doc/api/tools/mch_pay.php?chapter=14_1)
+
+包含以下API：  
+* 创建统一支付订单
+* 查询订单
+* 关闭订单
+* 申请退款
+* 查询退款详情
+* 企业付款，即转账到个人微信钱包
+* 查询企业付款详情
 
 ##  Usage
 
@@ -18,7 +28,7 @@ wxPayment.init({
 ```
 
 ### Create Unified Order
-创建统一支付订单, SPEC: https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1
+创建统一支付订单, [SPEC](https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1)
 
 ```javascript
 wxPayment.createUnifiedOrder({
@@ -50,7 +60,7 @@ router.use('/wxpayment/notify', wxPayment.wxCallback(function(msg, req, res, nex
 ```
 
 ### Query Order
-查询订单， SPEC: https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_2
+查询订单， [SPEC](https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_2)
 
 ```javascript
 wxPayment.queryOrder({
@@ -73,7 +83,7 @@ wxPayment.queryOrder({
 
 
 ### Close Order
-关闭订单， SPEC: https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_3
+关闭订单， [SPEC](https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_3)
 
 ```javascript
 wxPayment.closeOrder({
@@ -84,7 +94,7 @@ wxPayment.closeOrder({
 ```
 
 ### Refund
-申请退款， SPEC: https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_4
+申请退款， [SPEC](https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_4)
 
 ```javascript
 wxPayment.refund({
@@ -115,7 +125,7 @@ wxPayment.refund({
 
 
 ### Query Refund
-申请退款， SPEC: https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_5
+查询退款详情， [SPEC](https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_5)
 
 ```javascript
 wxPayment.queryRefund({
@@ -128,8 +138,7 @@ wxPayment.queryRefund({
 
 
 ### Transfers
-企业付款是基于微信支付商户平台的资金管理能力，为了协助商户方便地实现企业向个人付款，针对部分有开发能力的商户，提供通过API完成企业付款的功能。
-SPEC: https://pay.weixin.qq.com/wiki/doc/api/tools/mch_pay.php?chapter=14_2
+企业付款是基于微信支付商户平台的资金管理能力，为了协助商户方便地实现企业向个人付款，针对部分有开发能力的商户，提供通过API完成企业付款的功能。[SPEC](https://pay.weixin.qq.com/wiki/doc/api/tools/mch_pay.php?chapter=14_2)
 
 接口调用规则：            
 ◆ 给同一个实名用户付款，单笔单日限额2W/2W          
@@ -156,7 +165,7 @@ wxPayment.transfers({
 
 
 ### Query Transfer Info
-查询付款信息， SPEC: https://pay.weixin.qq.com/wiki/doc/api/tools/mch_pay.php?chapter=14_3
+查询付款详情， [SPEC](https://pay.weixin.qq.com/wiki/doc/api/tools/mch_pay.php?chapter=14_3)
 
 ```javascript
 wxPayment.queryTransferInfo({
@@ -165,3 +174,5 @@ wxPayment.queryTransferInfo({
 	console.log(result);
 });
 ```
+
+更多问题请联系： tolairf@163.com
