@@ -1,4 +1,3 @@
-var wxPayment = require('../lib/wx-payment');
 import WechatPayment from '../lib/WechatPayment';
 import { expect } from 'chai';
 import fs from 'fs';
