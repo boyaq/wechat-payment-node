@@ -221,6 +221,62 @@ export default class WechatPayment {
     }
 
 
+    getBrandWCPayRequestParams(order) {
+        return new Promise((resolve, reject) => {
+            order.trade_type = "JSAPI";
+            this.createUnifiedOrder(order)
+                .then(data => {
+                    let reqparam = {
+                        appId: this.options.appid,
+                        timeStamp: utils.createTimestamp(),
+                        nonceStr: data.nonce_str,
+                        package: "prepay_id=" + data.prepay_id,
+                        signType: "MD5"
+                    };
+                    reqparam.paySign = utils.sign(reqparam, this.options.apiKey);
+                    resolve(reqparam);
+                }).catch(err => {
+                    reject(err);
+                });
+        });
+
+
+    }
+
+    createMerchantPrepayUrl(param) {
+        param.time_stamp = param.time_stamp || utils.createTimestamp();
+        param.nonce_str = param.nonce_str || utils.createNonceStr();
+        param.appid = this.options.appid;
+        param.mch_id = this.options.mch_id;
+        param.sign = utils.sign(param, this.options.apiKey);
+
+        var query = Object.keys(param).filter(function (key) {
+            return ['sign', 'mch_id', 'product_id', 'appid', 'time_stamp', 'nonce_str'].indexOf(key) >= 0;
+        }).map(function (key) {
+            return key + "=" + encodeURIComponent(param[key]);
+        }).join('&');
+
+        return "weixin://wxpay/bizpayurl?" + query;
+    }
+
+    static wxCallback(fn) {
+        return function (req, res, next) {
+            var _this = this;
+            res.success = function () { res.end(utils.buildXML({ xml: { return_code: 'SUCCESS' } })); };
+            res.fail = function () { res.end(utils.buildXML({ xml: { return_code: 'FAIL' } })); };
+
+            utils.pipe(req, function (err, data) {
+                var xml = data.toString('utf8');
+                utils.parseXML(xml).then(msg=>{
+                    req.wxmessage = msg;
+                    fn.apply(_this, [msg, req, res, next]);
+                }).catch(err=>{
+                    console.log(err);
+                })
+            });
+        }
+    }
+
 
 
 }

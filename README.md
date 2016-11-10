@@ -1,7 +1,13 @@
-# Weixin Payment  (Node.js)    
+# Wechat Payment  (Node.js)    
+Wechat Payment API for Node.js
+
 微信支付 API for Node.js
 
+Please Reference Wechat payment docs carefully before using this package.
+Wormhole：[wechat payment docs](https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=1_1), [enterprice version (transfers、withdraw)](https://pay.weixin.qq.com/wiki/doc/api/tools/mch_pay.php?chapter=14_1)
+
 使用之前一定要读懂微信支付的文档, 传送门：[微信支付](https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=1_1), [企业付款 (转账、提现)](https://pay.weixin.qq.com/wiki/doc/api/tools/mch_pay.php?chapter=14_1)
+
 
 包含以下API：  
 * 创建统一支付订单
@@ -18,31 +24,40 @@
 配置，初始化; 在调用其他接口前必须先初始化！
 
 ```javascript
-var wxPayment = require('wx-payment');
-wxPayment.init({
-  appid: 'xxxxxxxx',
-  mch_id: '1234567890',
-  apiKey: 'xxxxxxxxxxxxxxxxx', //微信商户平台API密钥
+import WechatPayment from 'wechat-payment-node';
+let options = {
+  appid: 'your app id',
+  mch_id: 'your merchant id',
+  apiKey: 'your app key (partner key)', //微信商户平台API密钥
+  notify_url: 'your notify url',
+  trade_type: 'APP', //APP, JSAPI, NATIVE etc.
   pfx: fs.readFileSync('./apiclient_cert.p12'), //微信商户平台证书 (optional，部分API需要使用)
-});
+}；
+let wechatPaymentInstance = new WechatPayment(options);
 ```
 
 ### Create Unified Order
 创建统一支付订单, [SPEC](https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1)
 
 ```javascript
-wxPayment.createUnifiedOrder({
+let orderData = {
   body: '支付测试', // 商品或支付单简要描述
   out_trade_no: 'order1', // 商户系统内部的订单号,32个字符内、可包含字母
   total_fee: 100,
-  spbill_create_ip: '192.168.2.210',
+  spbill_create_ip: '192.168.2.1',
   notify_url: 'http://wxpayment_notify_url',
   trade_type: 'JSAPI',
   product_id: '1234567890',
   openid: 'xxxxxxxx'
-}, function(err, result){
-  console.log(result);
-});
+};
+
+ wechatPaymentInstance.createUnifiedOrder(orderData)
+ .then(result=>{
+   console.log(result);
+ })
+ .catch(err=>{
+   console.log(err);
+ });
 ```
 
 result 示例:
@@ -50,8 +65,8 @@ result 示例:
 {
   return_code: 'SUCCESS',
   return_msg: 'OK',
-  appid: 'wxxxxxxxxxxxxx',
-  mch_id: 'xxxxxxxxx',
+  appid: 'your app id',
+  mch_id: 'your merchantt id',
   nonce_str: 'GPAwjlqZmkl04dCH',
   sign: 'E9970AC7C2F2890BD6CA5C36F78B6921',
   result_code: 'SUCCESS',
@@ -66,7 +81,7 @@ result 示例:
 
 ```javascript
 // 支付结果异步通知
-router.use('/wxpayment/notify', wxPayment.wxCallback(function(msg, req, res, next){
+router.use('/wechat/payment/notify', wxPayment.wxCallback(function(msg, req, res, next){
   // 处理商户业务逻辑
 
   // res.success() 向微信返回处理成功信息，res.fail()返回失败信息。
@@ -78,20 +93,29 @@ router.use('/wxpayment/notify', wxPayment.wxCallback(function(msg, req, res, nex
 查询订单， [SPEC](https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_2)
 
 ```javascript
-wxPayment.queryOrder({
+wechatPaymentInstance.queryOrder({
   out_trade_no: 'order1'
-}, function(err, result){
+})
+.then(result=>{
   console.log(result);
-});
+})
+.catch(err=>{
+  console.log(err);
+})
+
 ```
 or
 
 ```javascript
-wxPayment.queryOrder({
+wechatPaymentInstance.queryOrder({
   transaction_id: '12222'
-}, function(err, result){
+})
+.then(result=>{
   console.log(result);
-});
+})
+.catch(err=>{
+  console.log(err);
+})
 ```
 
 `out_trade_no` 和 `transaction_id` 二选一
@@ -102,8 +126,8 @@ result 示例:
 {
   return_code: 'SUCCESS',
   return_msg: 'OK',
-  appid: 'wxxxxxxxxxxxxx',
-  mch_id: 'xxxxxxxxx',
+  appid: 'your app id',
+  mch_id: 'your merchant id',
   nonce_str: 'P6IFNTlKWVKtlOH4',
   sign: 'B3348E5BCB4FC7C7C5D1D7445023A9A0',
   result_code: 'SUCCESS',
@@ -118,11 +142,15 @@ result 示例:
 关闭订单， [SPEC](https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_3)
 
 ```javascript
-wxPayment.closeOrder({
-	out_trade_no: 'order1'
-}, function(err, result){
-	console.log(result);
-});
+wechatPaymentInstance.closeOrder({
+  out_trade_no: 'order1'
+})
+.then(result=>{
+  console.log(result);
+})
+.catch(err=>{
+  console.log(err);
+})
 ```
 
 result 示例:
@@ -130,8 +158,8 @@ result 示例:
 {
   return_code: 'SUCCESS',
   return_msg: 'OK',
-  appid: 'wxxxxxxxxxxxxx',
-  mch_id: 'xxxxxxxxx',
+  appid: 'your wechat id',
+  mch_id: 'your merchant id',
   nonce_str: 'qlJrwWF8E0M5tHyh',
   sign: '5E44DB01443506897D8CC7AA1C67BB0F',
   result_code: 'SUCCESS'
@@ -142,27 +170,41 @@ result 示例:
 申请退款， [SPEC](https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_4)
 
 ```javascript
-wxPayment.refund({
+let orderData = {
   out_trade_no: 'order1',
   out_refund_no: 'refund1',
   total_fee: 100,
   refund_fee: 100,
   op_user_id: '1234567890',
-}, function(err, result){
+};
+wechatPaymentInstance.refund({
+  out_trade_no: 'order1'
+})
+.then(result=>{
   console.log(result);
+})
+.catch(err=>{
+  console.log(err);
 });
 ```
 or
 
 ```javascript
-wxPayment.refund({
+let orderData = {
   transaction_id: '1',
   out_refund_no: 'refund1',
   total_fee: 100,
   refund_fee: 100,
   op_user_id: '1234567890',
-}, function(err, result){
+};
+wechatPaymentInstance.refund({
+  out_trade_no: 'order1'
+})
+.then(result=>{
   console.log(result);
+})
+.catch(err=>{
+  console.log(err);
 });
 ```
 
@@ -172,8 +214,8 @@ wxPayment.refund({
 {
   return_code: 'SUCCESS',
   return_msg: 'OK',
-  appid: 'wxxxxxxxxxxx',
-  mch_id: 'xxxxxxxxxxxxxx',
+  appid: 'your app id',
+  mch_id: 'your merchant id',
   nonce_str: 'DFYEiS63BBNbwr9Y',
   sign: '9826704D76452E728B19C26BB7A81666',
   result_code: 'SUCCESS',
@@ -196,17 +238,21 @@ wxPayment.refund({
 查询退款详情， [SPEC](https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_5)
 
 ```javascript
-wxPayment.queryRefund({
-	out_trade_no: 'order1',
-}, function(err, result){
-	console.log(result);
+wechatPaymentInstance.queryRefund({
+  out_trade_no: 'order1'
+})
+.then(result=>{
+  console.log(result);
+})
+.catch(err=>{
+  console.log(err);
 });
 ```
 `out_trade_no` 也可以使用以下代替： `transaction_id`, `out_refund_no`, `refund_id`
 
 ```javascript
 {
-  appid: 'wxxxxxxxxxxxx',
+  appid: 'your app id',
   cash_fee: '1',
   mch_id: '1329105201',
   nonce_str: '9cMaFrdWbYMaYyZi',
@@ -242,16 +288,21 @@ wxPayment.queryRefund({
 
 
 ```javascript
-wxPayment.transfers({
+let orderData = {
   partner_trade_no: 'transferOrder1', //商户订单号，需保持唯一性
-  openid: 'xxxxxxxx',
+  openid: 'open id',
   check_name: 'OPTION_CHECK',
-  re_user_name: '马化腾',
+  re_user_name: 'Mr Ma',
   amount: 100,
   desc: '红包',
   spbill_create_ip: '192.168.0.1'
-}, function(err, result){
+}
+wechatPaymentInstance.transfers(orderData)
+.then(result=>{
   console.log(result);
+})
+.catch(err=>{
+  console.log(err);
 });
 ```
 
@@ -260,8 +311,8 @@ result 示例:
 {
   return_code: 'SUCCESS',
   return_msg: '',
-  mch_appid: 'wxxxxxxxxxxxxx',
-  mchid: 'xxxxxxxxx',
+  mch_appid: 'app id',
+  mchid: 'merchant id',
   device_info: '',
   nonce_str: 'x5pzs6q95pkchaorbsn6o8ic',
   result_code: 'SUCCESS',
@@ -275,10 +326,14 @@ result 示例:
 查询付款详情， [SPEC](https://pay.weixin.qq.com/wiki/doc/api/tools/mch_pay.php?chapter=14_3)
 
 ```javascript
-wxPayment.queryTransferInfo({
+wechatPaymentInstance.transfers({
 	partner_trade_no: 'transferOrder1' //商户订单号，需保持唯一性
-}, function(err, result){
-	console.log(result);
+})
+.then(result=>{
+  console.log(result);
+})
+.catch(err=>{
+  console.log(err);
 });
 ```
 
@@ -288,10 +343,10 @@ result 示例:
   return_code: 'SUCCESS',
   result_code: 'SUCCESS',
   partner_trade_no: 'testTransferOrder10',
-  mch_id: 'xxxxxxxxx',
+  mch_id: 'merchant id',
   detail_id: '1000018301201607010763072544',
   status: 'SUCCESS',
-  openid: 'xxxxxxxxxxxxxxxxxxxxxxxxxxx',
+  openid: 'open id',
   payment_amount: '100',
   transfer_time: '2016-07-01 10:44:55',
   desc: '红包',
@@ -299,4 +354,4 @@ result 示例:
 }
 ```
 
-更多问题请联系： tolairf@163.com
+[更多问题请提交ISSUE](https://github.com/OtkurBiz/wechat-payment-node/issues)

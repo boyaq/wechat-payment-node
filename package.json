@@ -1,5 +1,5 @@
 {
-  "name": "wechat-payment",
+  "name": "wechat-payment-node",
   "version": "1.0.0",
   "description": "Payment API of Weixin (WeChat)",
   "main": "index.js",
@@ -48,8 +48,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/OtkurBiz/wechat-payment"
+    "url": "https://github.com/OtkurBiz/wechat-payment-node"
   },
-  "bugs": "https://github.com/OtkurBiz/wechat-payment/issues",
-  "homepage": "https://github.com/OtkurBiz/wechat-payment"
+  "bugs": "https://github.com/OtkurBiz/wechat-payment-node/issues",
+  "homepage": "https://github.com/OtkurBiz/wechat-payment-node"
 }

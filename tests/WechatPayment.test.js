@@ -43,8 +43,8 @@ describe('Wechat payment 测试', function () {
                 out_trade_no: '20140703' + Math.random().toString().substr(2, 10),
                 total_fee: 1,
                 spbill_create_ip: '192.168.2.210',
-                notify_url: 'http://wxpay_notify_url',
-                trade_type: 'APP',
+                notify_url: wechatConfig.notifyUrl,
+                trade_type: wechatConfig.tradeType,
             })
             .then(result=>{
                 console.log(result, 'result');

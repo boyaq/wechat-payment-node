@@ -3,4 +3,5 @@ coverage
 mochawesome-reports
 real_tests
 config
+config/realWechat.json
 
