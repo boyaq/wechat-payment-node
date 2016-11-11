@@ -54,7 +54,7 @@ export default class WechatPayment {
      * 
      * @param prepayId from prepay id
      */ 
-    
+
     configForPayment(prepayId){
         let configData = {
             appid: this.options.appid,
@@ -288,9 +288,9 @@ export default class WechatPayment {
 
             utils.pipe(req, function (err, data) {
                 var xml = data.toString('utf8');
-                utils.parseXML(xml).then(msg=>{
-                    req.wxmessage = msg;
-                    fn.apply(_this, [msg, req, res, next]);
+                utils.parseXML(xml).then(notification=>{
+                    req.wxmessage = notification;
+                    fn.apply(_this, [notification, req, res, next]);
                 }).catch(err=>{
                     console.log(err);
                 })

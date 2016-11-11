@@ -79,7 +79,7 @@ result 示例:
 
 ```javascript
 // 支付结果异步通知
-router.use('/wechat/payment/notify', wxPayment.wxCallback(function(msg, req, res, next){
+router.use('/wechat/payment/notify', wechatPaymentInstance.wxCallback(function(notification, req, res, next){
   // 处理商户业务逻辑
 
   // res.success() 向微信返回处理成功信息，res.fail()返回失败信息。
