@@ -46,9 +46,7 @@ let orderData = {
   total_fee: 100,
   spbill_create_ip: '192.168.2.1',
   notify_url: 'http://wxpayment_notify_url',
-  trade_type: 'JSAPI',
-  product_id: '1234567890',
-  openid: 'xxxxxxxx'
+  trade_type: 'JSAPI'
 };
 
  wechatPaymentInstance.createUnifiedOrder(orderData)

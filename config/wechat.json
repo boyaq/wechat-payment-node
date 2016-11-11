@@ -1,0 +1,7 @@
+{
+    "partnerKey": "微信商户平台API密钥",
+    "appId": "微信APP id",
+    "mchId": "微信商户平台商户ID",
+    "notifyUrl": "/order/notify-from-wechat",
+    "tradeType": "APP/JSAPI/NATIVE"  
+}
