@@ -50,6 +50,25 @@ export default class WechatPayment {
     }
 
     /**
+     * config for payment 
+     * 
+     * @param prepayId from prepay id
+     */ 
+    
+    configForPayment(prepayId){
+        let configData = {
+            appid: this.options.appid,
+            partnerid: this.options.mch_id,
+            prepayid: prepayId,
+            package: 'Sign=WXPay',
+            noncestr: utils.createNonceStr(),
+            timestamp: new Date().getTime()
+        }
+        configData.sign = Utils.sign(configData);
+        return configData;
+    }
+
+    /**
      * query
      * 
      * 
