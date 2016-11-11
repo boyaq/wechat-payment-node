@@ -64,7 +64,7 @@ export default class WechatPayment {
             noncestr: utils.createNonceStr(),
             timestamp: new Date().getTime()
         }
-        configData.sign = Utils.sign(configData);
+        configData.sign = utils.sign(configData);
         return configData;
     }
 
