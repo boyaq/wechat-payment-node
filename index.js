@@ -1,3 +1,3 @@
-var WechatPayment = require('./lib/wx-payment');
+var WechatPayment = require('./lib/WechatPayment');
 
 module.exports = WechatPayment;
