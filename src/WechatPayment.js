@@ -1,7 +1,9 @@
 import utils from './utils';
+import urls from './urls';
+
 import request from 'request';
 
-import urls from '../config/urls';
+
 
 
 export default class WechatPayment {
