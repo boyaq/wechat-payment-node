@@ -62,7 +62,7 @@ export default class WechatPayment {
             prepayid: prepayId,
             package: 'Sign=WXPay',
             noncestr: utils.createNonceStr(),
-            timestamp: new Date().getTime() / 1000
+            timestamp: parseInt(new Date().getTime() / 1000)
         }
         configData.sign = utils.sign(configData, this.options.apiKey);
         return configData;

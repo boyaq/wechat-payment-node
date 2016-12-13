@@ -2,7 +2,7 @@ import WechatPayment from '../lib/WechatPayment';
 import { expect } from 'chai';
 import fs from 'fs';
 
-var wechatConfig = require('../config/wechat.json');
+var wechatConfig = require('../config/realWechat.json');
 
 describe('Wechat payment 测试', function () {
 
@@ -26,6 +26,7 @@ describe('Wechat payment 测试', function () {
         });
     });
 
+    var myResult = '';
 
     describe('统一下单接口: wxPayment.createUnifiedOrder', function () {
         let options = {
@@ -35,7 +36,7 @@ describe('Wechat payment 测试', function () {
             //pfx: fs.readFileSync('./apiclient_cert.p12'), //微信商户平台证书 (optional，部分API需要使用)
         }
 
-        
+
         let wechatPaymentInstance = new WechatPayment(options);
         it('统一下单', function () {
             wechatPaymentInstance.createUnifiedOrder({
@@ -46,14 +47,33 @@ describe('Wechat payment 测试', function () {
                 notify_url: wechatConfig.notifyUrl,
                 trade_type: wechatConfig.tradeType,
             })
-            .then(result=>{
-                console.log(result, 'result');
-                expect(result.return_code).to.be.equal('FAIL');
-            })
-            .catch(err=>{
-                console.log(err);
-            })
+                .then(result => {
+                    console.log(result, 'result');
+                    myResult = result;
+                    expect(result.return_code).to.be.equal('SUCCESS');
+
+                })
+                .catch(err => {
+                    console.log(err);
+                })
         });
     });
+
+    describe('生成payment设置: wxPayment.configForPayment', function () {
+         let options = {
+            appid: wechatConfig.appId,
+            mch_id: wechatConfig.mchId,
+            apiKey: wechatConfig.partnerKey, //微信商户平台API密钥
+            //pfx: fs.readFileSync('./apiclient_cert.p12'), //微信商户平台证书 (optional，部分API需要使用)
+        }
+        let wechatPaymentInstance = new WechatPayment(options);
+        it('生成配置', function () {
+            let prepayId = 'wx201612132002348597b1e4c50601226291';
+            let config = wechatPaymentInstance.configForPayment(prepayId);
+            console.log(config, 'payment config');
+        });
+    });
+
+
 
 });

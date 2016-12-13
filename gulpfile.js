@@ -19,10 +19,16 @@ gulp.task('build', () => {
 });
 
 
-gulp.task('watch',['build'], () => {
-    return watch(jsFiles, { ignoreInitial: false },  ()=>{
+gulp.task('watch', ['build'], () => {
+    return watch(jsFiles, { ignoreInitial: false }, () => {
         gulp.src('tests/*', { read: false })
             // gulp-mocha needs filepaths so you can't have any plugins before it
             .pipe(mocha())
     });
+});
+
+gulp.task('test', () => {
+    gulp.src('tests/*', { read: false })
+        // gulp-mocha needs filepaths so you can't have any plugins before it
+        .pipe(mocha())
 });
