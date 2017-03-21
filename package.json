@@ -1,8 +1,8 @@
 {
   "name": "wechat-payment-node",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Payment API of Weixin (WeChat) for APP and also JSAPI",
-  "main": "lib/WechatPayment.js",
+  "main": "lib/index.js",
   "scripts": {
     "watch": "mocha --compilers js:babel-core/register --watch tests/",
     "test": "mocha --reporter spec --timeout 2000 --recursive tests/",
