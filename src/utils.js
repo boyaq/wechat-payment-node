@@ -1,12 +1,19 @@
 import xml2js from 'xml2js';
 import MD5 from 'md5';
+import sha1 from 'sha1';
 
 export default class utils {
     static sign(object, key) {
         var querystring = utils.createQueryString(object);
         if (key) querystring += "&key=" + key;
-
+        console.log(querystring, 'hahahahahahh');
         return MD5(querystring).toUpperCase();
+    }
+
+
+    static shaSign(object){
+         var querystring = utils.createQueryString(object);
+         return sha1(querystring).toLowerCase();
     }
 
     static createNonceStr(length) {

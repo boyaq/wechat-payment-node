@@ -13,7 +13,6 @@ describe('Wechat payment 测试', function () {
             apiKey: wechatConfig.partnerKey, //微信商户平台API密钥
             //pfx: fs.readFileSync('./apiclient_cert.p12'), //微信商户平台证书 (optional，部分API需要使用)
         }
-
         it('应该返回没有app id错误', function () {
             var fcn = function () { new WechatPayment(options) };
             expect(fcn).to.throw("Seems that app id or merchant id is not set, please provide wechat app id and merchant id.");
@@ -60,7 +59,7 @@ describe('Wechat payment 测试', function () {
     });
 
     describe('生成payment设置: wxPayment.configForPayment', function () {
-         let options = {
+        let options = {
             appid: wechatConfig.appId,
             mch_id: wechatConfig.mchId,
             apiKey: wechatConfig.partnerKey, //微信商户平台API密钥
@@ -73,7 +72,6 @@ describe('Wechat payment 测试', function () {
             console.log(config, 'payment config');
         });
     });
-
 
 
 });

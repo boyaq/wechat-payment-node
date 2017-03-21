@@ -5,5 +5,6 @@ export default {
     REFUND: 'https://api.mch.weixin.qq.com/secapi/pay/refund',
     REFUND_QUERY: 'https://api.mch.weixin.qq.com/pay/refundquery',
     TRANSFERS: 'https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers',
-    TRNSFER_INFO: 'https://api.mch.weixin.qq.com/mmpaymkttransfers/gettransferinfo'
+    TRNSFER_INFO: 'https://api.mch.weixin.qq.com/mmpaymkttransfers/gettransferinfo',
+    TICKET: 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=:access_token&type=jsapi',
 }

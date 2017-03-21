@@ -1,0 +1,11 @@
+{
+    "partnerKey": "微信商户平台API密钥",
+    "appId": "微信APP id",
+    "mchId": "微信商户平台商户ID",
+    "notifyUrl": "/order/notify-from-wechat",
+	"openId": "",
+	"accessToken": "", //普通型AccessToken 来自 https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET
+	"ticket": "", // 来自 https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=iNlD17-Acv3jxNffBtqBbbUeIFZ5f-X-9uajnvZT6abTj6rpPCeVelk5kSc_SCaB-EySrtWCMrOWhwjm3Jl0xU7V06pLLwx584iIBEMQRYcXONaAHALCB&type=JSAPI
+    "tradeType": "JSAPI",
+	"currentUrl": "" //不需要转移 当前调起接口的url
+}
