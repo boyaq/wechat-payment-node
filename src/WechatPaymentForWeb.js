@@ -65,7 +65,7 @@ export default class WechatPaymentForWeb {
 			package: "prepay_id=" + prepayId,
 			signType: "MD5",
 		}
-		configData.paySign = utils.shaSign(configData);
+		configData.sign = utils.sign(configData, this.options.apiKey);
 		return configData;
 	}
 
