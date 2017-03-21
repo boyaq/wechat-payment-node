@@ -60,27 +60,13 @@ export default class WechatPaymentForWeb {
 	configForPayment(prepayId) {
 		let configData = {
 			appid: this.options.appid,
-			partnerid: this.options.mch_id,
-			prepayid: prepayId,
-			package: 'Sign=WXPay',
-			noncestr: utils.createNonceStr(),
-			timestamp: parseInt(new Date().getTime() / 1000)
-		}
-		configData.sign = utils.sign(configData, this.options.apiKey);
-		return configData;
-	}
-
-	createConfigSign() {
-		let configData = {
-			jsapi_ticket: this.options.ticket,
-			noncestr: utils.createNonceStr(),
 			timestamp: parseInt(new Date().getTime() / 1000),
-			url: this.options.url,
+			noncestr: utils.createNonceStr(),
+			package: "prepay_id=" + prepayId,
+			signType: "MD5",
 		}
-		configData.sign = utils.shaSign(configData);
+		configData.paySign = utils.shaSign(configData);
 		return configData;
 	}
-
-
 
 }
