@@ -1,6 +1,6 @@
 {
   "name": "wechat-payment-node",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "Payment API of Weixin (WeChat) for APP and also JSAPI",
   "main": "lib/index.js",
   "scripts": {
@@ -11,9 +11,9 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.16.0",
+    "jssha": "^2.2.0",
     "md5": "^2.1.0",
     "request": "^2.54.0",
-    "sha1": "^1.1.1",
     "xml2js": "^0.4.6"
   },
   "keywords": [

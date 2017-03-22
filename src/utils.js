@@ -82,4 +82,21 @@ export default class utils {
         });
         stream.once('error', fn);
     }
+
+    
+
+    static buildQueryStringWithoutEncode(obj) {
+        return obj ? Object.keys(obj).sort().map(function (key) {
+            var val = obj[key];
+            key = key.toLowerCase();
+            if (Array.isArray(val)) {
+                return val.sort().map(function (val2) {
+                    return key + '=' + val2;
+                }).join('&');
+            }
+            return key + '=' + val;
+        }).join('&') : '';
+    }
+
+
 }
