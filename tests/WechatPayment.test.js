@@ -2,7 +2,7 @@ import WechatPayment from '../lib/WechatPayment';
 import { expect } from 'chai';
 import fs from 'fs';
 
-var wechatConfig = require('../config/realWechat.json');
+var wechatConfig = require('../config/wechat.json');
 
 describe('Wechat payment 测试', function () {
 
