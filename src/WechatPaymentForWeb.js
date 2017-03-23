@@ -3,6 +3,7 @@ import urls from './urls';
 
 import request from 'request';
 
+import jsSHA from 'jssha';
 
 export default class WechatPaymentForWeb {
 
@@ -61,7 +62,7 @@ export default class WechatPaymentForWeb {
 			signType: "MD5",
 			timeStamp: timeStamp
 		}
-		configData.sign = utils.sign(configData, this.options.apiKey);
+		configData.paySign = utils.sign(configData, this.options.apiKey);
 		return configData;
 	}
 
