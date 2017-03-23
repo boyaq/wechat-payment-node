@@ -68,21 +68,49 @@ export default class WechatPaymentForWeb {
 
 
 	configSignature(url, nonceStr, jsApiTicket) {
-        let configData = {
-            jsapi_ticket: jsApiTicket,
-            nonceStr: nonceStr,
-            timestamp: parseInt(new Date().getTime() / 1000) + '',
-            url: url
-        }
-        let string = utils.buildQueryStringWithoutEncode(configData);
-        let shaObj = new jsSHA("SHA-1", 'TEXT');
-        shaObj.update(string);
+		let configData = {
+			jsapi_ticket: jsApiTicket,
+			nonceStr: nonceStr,
+			timestamp: parseInt(new Date().getTime() / 1000) + '',
+			url: url
+		}
+		let string = utils.buildQueryStringWithoutEncode(configData);
+		let shaObj = new jsSHA("SHA-1", 'TEXT');
+		shaObj.update(string);
 
-        return {
-            signature: shaObj.getHash('HEX'),
-            timestamp: configData.timestamp
-        };
+		return {
+			signature: shaObj.getHash('HEX'),
+			timestamp: configData.timestamp
+		};
 
-    }
+	}
+
+	static wxCallback(fn, apiKey) {
+		return (req, res, next) => {
+			var _this = this;
+			res.success = function () { res.end(utils.buildXML({ xml: { return_code: 'SUCCESS' } })); };
+			res.fail = function () { res.end(utils.buildXML({ xml: { return_code: 'FAIL' } })); };
+			console.log("hahah");
+			utils.pipe(req, function (err, data) {
+				var xml = data.toString('utf8');
+				utils.parseXML(xml).then(notification => {
+
+					let dataForSign = Object.assign({}, notification);
+					delete dataForSign.sign;
+					let signValue = utils.sign(dataForSign, apiKey);
+					if (signValue != notification.sign) {
+						fn.apply(_this, [null, req, res, next]);
+					} else {
+						req.wxmessage = notification;
+						fn.apply(_this, [notification, req, res, next]);
+					}
+
+				}).catch(err => {
+					console.log(err);
+					next(err)
+				})
+			});
+		}
+	}
 
 }
