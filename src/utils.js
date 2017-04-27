@@ -1,6 +1,6 @@
 import xml2js from 'xml2js';
 import MD5 from 'md5';
-import sha1 from 'sha1';
+import jsSHA from 'jssha';
 
 export default class utils {
     static sign(object, key) {
@@ -11,9 +11,12 @@ export default class utils {
     }
 
 
-    static shaSign(object){
-         var querystring = utils.createQueryString(object);
-         return sha1(querystring).toLowerCase();
+    static shaSign(object) {
+        var querystring = utils.createQueryString(object);
+
+        let shaObj = new jsSHA("SHA-1", 'TEXT');
+        shaObj.update(querystring);
+        return shaObj.getHash('HEX');
     }
 
     static createNonceStr(length) {
@@ -83,7 +86,7 @@ export default class utils {
         stream.once('error', fn);
     }
 
-    
+
 
     static buildQueryStringWithoutEncode(obj) {
         return obj ? Object.keys(obj).sort().map(function (key) {
