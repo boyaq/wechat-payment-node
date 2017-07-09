@@ -32,7 +32,7 @@ let options = {
   notify_url: 'your notify url',
   trade_type: 'APP', //APP, JSAPI, NATIVE etc.
   pfx: fs.readFileSync('./apiclient_cert.p12'), //微信商户平台证书 (optional，部分API需要使用)
-}；
+};
 let wechatPaymentInstance = new WechatPayment(options);
 ```
 
