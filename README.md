@@ -32,7 +32,7 @@ let options = {
   notify_url: 'your notify url',
   trade_type: 'APP', //APP, JSAPI, NATIVE etc.
   pfx: fs.readFileSync('./apiclient_cert.p12'), //微信商户平台证书 (optional，部分API需要使用)
-}；
+};
 let wechatPaymentInstance = new WechatPayment(options);
 ```
 
@@ -79,13 +79,17 @@ result 示例:
 
 ```javascript
 // 支付结果异步通知
-router.use('/wechat/payment/notify', wechatPaymentInstance.wxCallback(function(notification, req, res, next){
+router.use('/wechat/payment/notify', WechatPayment.wxCallback(function(notification, req, res, next){
   // 处理商户业务逻辑
 
   // res.success() 向微信返回处理成功信息，res.fail()返回失败信息。
   res.success();
 }));
 ```
+
+注：此方法是静态方法，直接调用，不用实例化。WechatPayment.wxCallback()
+
+
 
 ### Query Order
 查询订单， [SPEC](https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_2)
