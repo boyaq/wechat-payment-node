@@ -109,9 +109,9 @@ export default class WechatPayment {
             }
 
             order.nonce_str = order.nonce_str || utils.createNonceStr();
-            order.appid = WechatPayment.options.appid;
-            order.mch_id = WechatPayment.options.mch_id;
-            order.sign = utils.sign(order, WechatPayment.options.apiKey);
+            order.appid = this.options.appid;
+            order.mch_id = this.options.mch_id;
+            order.sign = utils.sign(order, this.options.apiKey);
 
             request({
                 url: urls.CLOSE_ORDER,
@@ -137,18 +137,18 @@ export default class WechatPayment {
             }
 
             order.nonce_str = order.nonce_str || utils.createNonceStr();
-            order.appid = WechatPayment.options.appid;
-            order.mch_id = WechatPayment.options.mch_id;
+            order.appid = this.options.appid;
+            order.mch_id = this.options.mch_id;
             order.op_user_id = order.op_user_id || order.mch_id;
-            order.sign = utils.sign(order, WechatPayment.options.apiKey);
+            order.sign = utils.sign(order, this.options.apiKey);
 
             request({
                 url: urls.REFUND,
                 method: "POST",
                 body: utils.buildXML({ xml: order }),
                 agentOptions: {
-                    pfx: WechatPayment.options.pfx,
-                    passphrase: WechatPayment.options.mch_id
+                    pfx: this.options.pfx,
+                    passphrase: this.options.mch_id
                 }
             }, function (err, response, body) {
                 utils.parseXML(body)
@@ -169,9 +169,9 @@ export default class WechatPayment {
             }
 
             order.nonce_str = order.nonce_str || utils.createNonceStr();
-            order.appid = WechatPayment.options.appid;
-            order.mch_id = WechatPayment.options.mch_id;
-            order.sign = utils.sign(order, WechatPayment.options.apiKey);
+            order.appid = this.options.appid;
+            order.mch_id = this.options.mch_id;
+            order.sign = utils.sign(order, this.options.apiKey);
 
             request({
                 url: urls.REFUND_QUERY,
@@ -197,17 +197,17 @@ export default class WechatPayment {
             }
 
             order.nonce_str = order.nonce_str || utils.createNonceStr();
-            order.mch_appid = WechatPayment.options.appid;
-            order.mchid = WechatPayment.options.mch_id;
-            order.sign = utils.sign(order, WechatPayment.options.apiKey);
+            order.mch_appid = this.options.appid;
+            order.mchid = this.options.mch_id;
+            order.sign = utils.sign(order, this.options.apiKey);
 
             request({
                 url: urls.TRANSFERS,
                 method: "POST",
                 body: utils.buildXML(order),
                 agentOptions: {
-                    pfx: WechatPayment.options.pfx,
-                    passphrase: WechatPayment.options.mch_id
+                    pfx: this.options.pfx,
+                    passphrase: this.options.mch_id
                 }
             }, function (err, response, body) {
                 utils.parseXML(body, fn);
@@ -223,17 +223,17 @@ export default class WechatPayment {
             }
 
             order.nonce_str = order.nonce_str || utils.createNonceStr();
-            order.appid = WechatPayment.options.appid;
-            order.mch_id = WechatPayment.options.mch_id;
-            order.sign = utils.sign(order, WechatPayment.options.apiKey);
+            order.appid = this.options.appid;
+            order.mch_id = this.options.mch_id;
+            order.sign = utils.sign(order, this.options.apiKey);
 
             request({
                 url: urls.TRNSFER_INFO,
                 method: "POST",
                 body: utils.buildXML({ xml: order }),
                 agentOptions: {
-                    pfx: WechatPayment.options.pfx,
-                    passphrase: WechatPayment.options.mch_id
+                    pfx: this.options.pfx,
+                    passphrase: this.options.mch_id
                 }
             }, function (err, response, body) {
                 utils.parseXML(body, fn);

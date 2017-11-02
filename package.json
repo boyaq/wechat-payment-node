@@ -1,7 +1,7 @@
 {
   "name": "wechat-payment-node",
-  "version": "2.3.2",
-  "description": "Payment API of Weixin (WeChat) for APP and also JSAPI",
+  "version": "2.4.0",
+  "description": "微信支付 for nodejs,创建统一支付订单,查询订单,关闭订单,申请退款,查询退款详情,企业付款，即转账到个人微信钱包,查询企业付款详情 Payment API of Weixin (WeChat) for APP and also JSAPI",
   "main": "lib/index.js",
   "scripts": {
     "watch": "mocha --compilers js:babel-core/register --watch tests/",
@@ -21,7 +21,16 @@
     "wechat",
     "weixin",
     "payment",
-    "微信支付"
+    "node",
+    "微信支付",
+    "weixin node",
+    "wechat node",
+    "weixin nodejs",
+    "wechat nodejs",
+    "nodejs",
+    "wechat payment",
+    "weixin zhifu",
+    "weixin payment"
   ],
   "author": "Alim Boyaq",
   "contributors": [
