@@ -1,4 +1,4 @@
-import utils from '../lib/utils';
+import utils from '../src/utils';
 import {expect} from 'chai';
 
 describe('utils：工具方法测试', function() {

@@ -6,6 +6,7 @@ const mocha = require('gulp-mocha');
 const watch = require('gulp-watch');
 
 require('babel-core/register');
+require('babel-polyfill');
 
 var jsFiles = ['src/*.js', '*.js', 'tests/*.js'];
 

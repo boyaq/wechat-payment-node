@@ -1,6 +1,9 @@
 import xml2js from 'xml2js';
 import MD5 from 'md5';
 import jsSHA from 'jssha';
+import crypto from 'crypto';
+import { Buffer } from 'safe-buffer';
+import fs from 'fs';
 
 export default class utils {
     static sign(object, key) {
@@ -22,8 +25,10 @@ export default class utils {
     static createNonceStr(length) {
         length = length || 24;
         if (length > 32) length = 32;
-
-        return (Math.random().toString(36).substr(2) + Math.random().toString(36).substr(2)).substr(0, length);
+        let randomStr = Math.random().toString(36);
+        let randomStr2 = Math.random().toString(36);
+        let nonceStr = (randomStr + randomStr2).substr(0, length);
+        return nonceStr;
     }
 
     static createTimestamp() {
@@ -101,5 +106,13 @@ export default class utils {
         }).join('&') : '';
     }
 
+    static decryptByAes256Cbc(encryptdata, cryptkey) {
+        encryptdata = new Buffer(encryptdata, 'base64').toString('hex');
+        var dec, decipher;
+        decipher = crypto.createDecipheriv('aes-256-ecb', MD5(cryptkey).toLowerCase(), '');
+        dec = decipher.update(encryptdata, 'hex', 'utf8');
+        dec += decipher.final('utf8');
+        return dec;
+    }
 
 }

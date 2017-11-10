@@ -1,10 +1,6 @@
 import utils from './utils';
 import urls from './urls';
-
 import request from 'request';
-
-
-
 
 export default class WechatPayment {
 
@@ -53,9 +49,9 @@ export default class WechatPayment {
      * config for payment 
      * 
      * @param prepayId from prepay id
-     */ 
+     */
 
-    configForPayment(prepayId){
+    configForPayment(prepayId) {
         let configData = {
             appid: this.options.appid,
             partnerid: this.options.mch_id,
@@ -280,27 +276,62 @@ export default class WechatPayment {
         return "weixin://wxpay/bizpayurl?" + query;
     }
 
-    static wxCallback(fn, apiKey) {
-        return (req, res, next)=> {
+
+    static async checkNotification(xml, apiKey, type = 'payment') {
+        // utils.parseXML(xml).then(notification => {
+        //     if (type == 'payment') {
+        //         let dataForSign = Object.assign({}, notification);
+        //         delete dataForSign.sign;
+        //         let signValue = utils.sign(dataForSign, apiKey);
+        //         if (signValue != notification.sign) {
+        //             return null;
+        //         } else {
+        //             req.wxmessage = notification;
+        //         }
+        //     } else {
+        //         let decryptedData = utils.decryptByAes256Cbc(notification.req_info, apiKey);
+        //         console.log(decryptedData, '************>');
+
+        //     }
+
+        //     return 
+        // })
+        try {
+            let notification = await utils.parseXML(xml);
+            let decryptedData = utils.decryptByAes256Cbc(notification.req_info, apiKey);
+            let finalData = await utils.parseXML(decryptedData);
+            return finalData;
+        } catch (error) {
+            return error;
+        }
+        // fn.apply(_this, [notification, req, res, next]);
+    }
+
+
+    static wxCallback(fn, apiKey, type = 'payment') {
+        return (req, res, next) => {
             var _this = this;
             res.success = function () { res.end(utils.buildXML({ xml: { return_code: 'SUCCESS' } })); };
             res.fail = function () { res.end(utils.buildXML({ xml: { return_code: 'FAIL' } })); };
-            console.log("hahah");
             utils.pipe(req, function (err, data) {
                 var xml = data.toString('utf8');
-                utils.parseXML(xml).then(notification=>{
-                    
-                    let dataForSign = Object.assign({}, notification);
-                    delete dataForSign.sign;
-                    let signValue = utils.sign(dataForSign, apiKey);
-                    if(signValue != notification.sign){
-                        fn.apply(_this, [null, req, res, next]);
-                    }else{
-                        req.wxmessage = notification;
+                utils.parseXML(xml).then(notification => {
+                    if (type == 'payment') {
+                        let dataForSign = Object.assign({}, notification);
+                        delete dataForSign.sign;
+                        let signValue = utils.sign(dataForSign, apiKey);
+                        if (signValue != notification.sign) {
+                            fn.apply(_this, [null, req, res, next]);
+                        } else {
+                            req.wxmessage = notification;
+                            fn.apply(_this, [notification, req, res, next]);
+                        }
+                    } else {
+                        let decryptedData = utils.decryptByAes256Cbc(notification.req_info, apiKey);
+                        console.log(decryptedData, '************>');
                         fn.apply(_this, [notification, req, res, next]);
                     }
-                    
-                }).catch(err=>{
+                }).catch(err => {
                     console.log(err);
                     next(err)
                 })
