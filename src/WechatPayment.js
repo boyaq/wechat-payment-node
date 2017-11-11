@@ -278,29 +278,24 @@ export default class WechatPayment {
 
 
     static async checkNotification(xml, apiKey, type = 'payment') {
-        // utils.parseXML(xml).then(notification => {
-        //     if (type == 'payment') {
-        //         let dataForSign = Object.assign({}, notification);
-        //         delete dataForSign.sign;
-        //         let signValue = utils.sign(dataForSign, apiKey);
-        //         if (signValue != notification.sign) {
-        //             return null;
-        //         } else {
-        //             req.wxmessage = notification;
-        //         }
-        //     } else {
-        //         let decryptedData = utils.decryptByAes256Cbc(notification.req_info, apiKey);
-        //         console.log(decryptedData, '************>');
-
-        //     }
-
-        //     return 
-        // })
         try {
-            let notification = await utils.parseXML(xml);
-            let decryptedData = utils.decryptByAes256Cbc(notification.req_info, apiKey);
-            let finalData = await utils.parseXML(decryptedData);
-            return finalData;
+            if (type == 'payment') {
+                let notification =  await utils.parseXML(xml);
+                let dataForSign = Object.assign({}, notification);
+                delete dataForSign.sign;
+                let signValue = utils.sign(dataForSign, apiKey);
+                if (signValue != notification.sign) {
+                    return null;
+                } else {
+                    req.wxmessage = notification;
+                    return notification;
+                }
+            } else {
+                let notification = await utils.parseXML(xml);
+                let decryptedData = utils.decryptByAes256Cbc(notification.req_info, apiKey);
+                let finalData = await utils.parseXML(decryptedData);
+                return finalData;
+            }
         } catch (error) {
             return error;
         }
@@ -315,26 +310,8 @@ export default class WechatPayment {
             res.fail = function () { res.end(utils.buildXML({ xml: { return_code: 'FAIL' } })); };
             utils.pipe(req, function (err, data) {
                 var xml = data.toString('utf8');
-                utils.parseXML(xml).then(notification => {
-                    if (type == 'payment') {
-                        let dataForSign = Object.assign({}, notification);
-                        delete dataForSign.sign;
-                        let signValue = utils.sign(dataForSign, apiKey);
-                        if (signValue != notification.sign) {
-                            fn.apply(_this, [null, req, res, next]);
-                        } else {
-                            req.wxmessage = notification;
-                            fn.apply(_this, [notification, req, res, next]);
-                        }
-                    } else {
-                        let decryptedData = utils.decryptByAes256Cbc(notification.req_info, apiKey);
-                        console.log(decryptedData, '************>');
-                        fn.apply(_this, [notification, req, res, next]);
-                    }
-                }).catch(err => {
-                    console.log(err);
-                    next(err)
-                })
+                let notification = WechatPayment.checkNotification(notification, apiKey, type);
+                 fn.apply(_this, [notification, req, res, next]);
             });
         }
     }

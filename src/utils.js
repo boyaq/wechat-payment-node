@@ -9,7 +9,6 @@ export default class utils {
     static sign(object, key) {
         var querystring = utils.createQueryString(object);
         if (key) querystring += "&key=" + key;
-        console.log(querystring, 'hahahahahahh');
         return MD5(querystring).toUpperCase();
     }
 
