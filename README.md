@@ -78,13 +78,18 @@ result 示例:
 接收微信的回调， 对应上面的`notify_url`
 
 ```javascript
+WechatPayment.wxCallback(fn, apiKey, type)
+````
+此方法有三个参数，第一个是匿名函数，第二个是商户partnerKey, 第三个是类型。 目前只支持两种通知，一是支付通知（值为：'payment', 也是默认值），二是退款通知（值为： 'refund')。暂时不支持扫码付款通知。
+
+```javascript
 // 支付结果异步通知
 router.use('/wechat/payment/notify', WechatPayment.wxCallback(function(notification, req, res, next){
   // 处理商户业务逻辑
 
   // res.success() 向微信返回处理成功信息，res.fail()返回失败信息。
   res.success();
-}));
+}), apiKey);
 ```
 
 注：此方法是静态方法，直接调用，不用实例化。WechatPayment.wxCallback()
