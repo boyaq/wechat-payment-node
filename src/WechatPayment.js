@@ -206,13 +206,11 @@ export default class WechatPayment {
                     passphrase: this.options.mch_id
                 }
             }, function (err, response, body) {
-                if ( err ) reject(err);
+                if ( err ) return reject(err);
                 utils.parseXML.parseXML(body).then(function (result) {
                   if ( !result || result.result_code === 'FAIL' ) reject(result);
                   else resolve(result);
-                }).catch(function (err) {
-                    reject(err);
-                });
+                }).catch(reject);
             });
         });
     }
