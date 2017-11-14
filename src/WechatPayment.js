@@ -312,9 +312,9 @@ export default class WechatPayment {
             var _this = this;
             res.success = function () { res.end(utils.buildXML({ xml: { return_code: 'SUCCESS' } })); };
             res.fail = function () { res.end(utils.buildXML({ xml: { return_code: 'FAIL' } })); };
-            utils.pipe(req, function (err, data) {
+            utils.pipe(req, async function (err, data) {
                 var xml = data.toString('utf8');
-                let notification = WechatPayment.checkNotification(notification, apiKey, type);
+                let notification = await WechatPayment.checkNotification(notification, apiKey, type);
                  fn.apply(_this, [notification, req, res, next]);
             });
         }
