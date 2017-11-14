@@ -314,7 +314,7 @@ export default class WechatPayment {
             res.fail = function () { res.end(utils.buildXML({ xml: { return_code: 'FAIL' } })); };
             utils.pipe(req, async function (err, data) {
                 var xml = data.toString('utf8');
-                let notification = await WechatPayment.checkNotification(notification, apiKey, type);
+                let notification = await WechatPayment.checkNotification(xml, apiKey, type);
                  fn.apply(_this, [notification, req, res, next]);
             });
         }
