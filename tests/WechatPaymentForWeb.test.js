@@ -4,8 +4,8 @@ import fs from 'fs';
 
 var wechatConfig = require('../config/wechatForWeb.json');
 
-describe('Wechat payment 测试', function () {
-	describe('Wechat Payment 构造函数', function () {
+describe('Wechat payment for web 测试', function () {
+	describe('Wechat Payment for web 构造函数', function () {
 		let options = {
 			//appid: wechatConfig.appId,
 			mch_id: wechatConfig.mchId,
@@ -18,7 +18,7 @@ describe('Wechat payment 测试', function () {
 			expect(fcn).to.throw("Seems that app id or merchant id is not set, please provide wechat app id and merchant id.");
 		});
 
-		it('成功构造wechat payment instance', function () {
+		it('成功构造wechat payment for web instance', function () {
 			options['appid'] = wechatConfig.appId;
 			let wechatPaymentInstance = new WechatPaymentForWeb(options);
 			expect(wechatPaymentInstance.options).to.not.be.empty;

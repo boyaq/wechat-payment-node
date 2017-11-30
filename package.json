@@ -4,10 +4,9 @@
   "description": "微信支付 for nodejs,创建统一支付订单,查询订单,关闭订单,申请退款,查询退款详情,企业付款，即转账到个人微信钱包,查询企业付款详情 Payment API of Weixin (WeChat) for APP and also JSAPI",
   "main": "lib/index.js",
   "scripts": {
-    "watch": "mocha --compilers js:babel-core/register --watch tests/",
-    "test": "mocha --reporter spec --timeout 2000 --recursive tests/",
-    "test-cov": "istanbul cover ./node_modules/mocha/bin/_mocha -- -t 2000 --recursive  -R spec tests/",
-    "test-html": "mocha --reporter mochawesome tests/"
+    "watch": "gulp watch",
+    "test": "gulp test",
+    "build": "gulp build"
   },
   "dependencies": {
     "babel-runtime": "^6.23.0",

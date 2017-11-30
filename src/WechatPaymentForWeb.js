@@ -71,7 +71,7 @@ export default class WechatPaymentForWeb {
 		let configData = {
 			jsapi_ticket: jsApiTicket,
 			nonceStr: nonceStr,
-			timestamp: parseInt(new Date().getTime() / 1000) + '',
+			timestamp: parseInt(new Date().getTime() / 1000).toString(),
 			url: url
 		}
 		let string = utils.buildQueryStringWithoutEncode(configData);

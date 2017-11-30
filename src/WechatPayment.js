@@ -58,7 +58,7 @@ export default class WechatPayment {
             prepayid: prepayId,
             package: 'Sign=WXPay',
             noncestr: utils.createNonceStr(),
-            timestamp: parseInt(new Date().getTime() / 1000)
+            timestamp: parseInt(new Date().getTime() / 1000).toString(),
         }
         configData.sign = utils.sign(configData, this.options.apiKey);
         return configData;
@@ -206,10 +206,10 @@ export default class WechatPayment {
                     passphrase: this.options.mch_id
                 }
             }, function (err, response, body) {
-                if ( err ) return reject(err);
+                if (err) return reject(err);
                 utils.parseXML.parseXML(body).then(function (result) {
-                  if ( !result || result.result_code === 'FAIL' ) reject(result);
-                  else resolve(result);
+                    if (!result || result.result_code === 'FAIL') reject(result);
+                    else resolve(result);
                 }).catch(reject);
             });
         });
@@ -284,14 +284,13 @@ export default class WechatPayment {
     static async checkNotification(xml, apiKey, type = 'payment') {
         try {
             if (type == 'payment') {
-                let notification =  await utils.parseXML(xml);
+                let notification = await utils.parseXML(xml);
                 let dataForSign = Object.assign({}, notification);
                 delete dataForSign.sign;
                 let signValue = utils.sign(dataForSign, apiKey);
                 if (signValue != notification.sign) {
                     return null;
                 } else {
-                    req.wxmessage = notification;
                     return notification;
                 }
             } else {
@@ -315,7 +314,7 @@ export default class WechatPayment {
             utils.pipe(req, async function (err, data) {
                 var xml = data.toString('utf8');
                 let notification = await WechatPayment.checkNotification(xml, apiKey, type);
-                 fn.apply(_this, [notification, req, res, next]);
+                fn.apply(_this, [notification, req, res, next]);
             });
         }
     }
